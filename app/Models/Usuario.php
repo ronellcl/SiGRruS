@@ -187,7 +187,7 @@ class Usuario extends Model {
 
             if ($onlyLeaders) {
                 // Si solo queremos líderes, excluir Apoderados puros y Sin Rol
-                if ($u['rol'] !== 'Apoderado' && $u['rol'] !== 'Sin Rol') {
+                if ($u['rol'] !== 'Apoderado') {
                     $filtered[] = $u;
                 }
             } else {

@@ -41,10 +41,10 @@
                         <td><strong><?= htmlspecialchars($a['nombre_completo']) ?></strong></td>
                         <td><?= htmlspecialchars($a['rut']) ?></td>
                         <td>
-                            <?= htmlspecialchars($a['email']) ?><br>
-                            <small><?= htmlspecialchars($a['telefono']) ?></small>
+                            <?= htmlspecialchars($a['email'] ?? 'No informado') ?><br>
+                            <small><?= htmlspecialchars($a['telefono'] ?? 'S/T') ?></small>
                         </td>
-                        <td><?= htmlspecialchars($a['direccion']) ?></td>
+                        <td><?= htmlspecialchars($a['direccion'] ?? 'No informada') ?></td>
                         <td>
                             <a href="/apoderados/editar/<?= $a['id'] ?>" class="btn btn-primary btn-sm">Editar</a>
                         </td>

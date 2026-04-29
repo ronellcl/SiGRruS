@@ -7,7 +7,7 @@ class Apoderado extends Model {
     protected $table = 'apoderados';
     
     public function findAll() {
-        $stmt = $this->db->query("SELECT id, nombre_completo, rut FROM {$this->table} ORDER BY nombre_completo ASC");
+        $stmt = $this->db->query("SELECT * FROM {$this->table} ORDER BY nombre_completo ASC");
         return $stmt->fetchAll();
     }
 
