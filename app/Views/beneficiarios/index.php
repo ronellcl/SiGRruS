@@ -163,6 +163,31 @@
                     <input type="text" name="apoderado_direccion" required style="width:100%; padding:0.75rem; border-radius:8px; border:1px solid var(--glass-border); background:rgba(255,255,255,0.1); color:var(--color-text);">
                 </div>
 
+                <hr style="border:0; border-top:1px solid var(--glass-border); margin:1.5rem 0;">
+                <h3 style="margin-bottom:1rem; color:var(--color-secondary); font-size:1.1rem;">Apoderados Suplentes (Opcional)</h3>
+                <p style="font-size:0.8rem; opacity:0.7; margin-bottom:1rem;">Personas autorizadas en caso de que el titular no esté ubicable.</p>
+
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1.5rem;">
+                    <div>
+                        <label style="display:block; margin-bottom:0.5rem; font-weight:600;">Suplente 1</label>
+                        <select name="suplente_1_id" style="width:100%; padding:0.75rem; border-radius:8px; border:1px solid var(--glass-border); background:var(--color-bg); color:var(--color-text);">
+                            <option value="">-- Seleccionar --</option>
+                            <?php foreach($apoderados as $apo): ?>
+                                <option value="<?= $apo['id'] ?>"><?= htmlspecialchars($apo['nombre_completo']) ?> (<?= $apo['rut'] ?>)</option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div>
+                        <label style="display:block; margin-bottom:0.5rem; font-weight:600;">Suplente 2</label>
+                        <select name="suplente_2_id" style="width:100%; padding:0.75rem; border-radius:8px; border:1px solid var(--glass-border); background:var(--color-bg); color:var(--color-text);">
+                            <option value="">-- Seleccionar --</option>
+                            <?php foreach($apoderados as $apo): ?>
+                                <option value="<?= $apo['id'] ?>"><?= htmlspecialchars($apo['nombre_completo']) ?> (<?= $apo['rut'] ?>)</option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                </div>
+
                 <button type="submit" class="btn btn-primary" style="width:100%;">Inscribir Beneficiario</button>
             </form>
         </div>

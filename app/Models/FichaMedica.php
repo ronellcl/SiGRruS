@@ -8,9 +8,10 @@ class FichaMedica extends Model {
 
     public function getByBeneficiario($beneficiario_id) {
         $stmt = $this->db->prepare("
-            SELECT fm.*, b.nombre_completo, b.fecha_nacimiento, b.rut 
+            SELECT fm.*, b.nombre_completo, b.fecha_nacimiento, b.rut, u.nombre as autor_nombre
             FROM {$this->table} fm 
             JOIN beneficiarios b ON fm.beneficiario_id = b.id 
+            LEFT JOIN usuarios u ON fm.creado_por_usuario_id = u.id
             WHERE fm.beneficiario_id = ?
         ");
         $stmt->execute([$beneficiario_id]);
@@ -30,8 +31,8 @@ class FichaMedica extends Model {
             REPLACE INTO {$this->table} (
                 beneficiario_id, tipo_sangre, alergias, enfermedades_cronicas, 
                 medicamentos, prevision_salud, restricciones_alimenticias, 
-                vacunas_al_dia, observaciones_medicas, ultima_actualizacion
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
+                vacunas_al_dia, observaciones_medicas, creado_por_usuario_id, ultima_actualizacion
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
         ");
         return $stmt->execute([
             $data['beneficiario_id'],
@@ -42,7 +43,8 @@ class FichaMedica extends Model {
             $data['prevision_salud'],
             $data['restricciones_alimenticias'],
             $data['vacunas_al_dia'],
-            $data['observaciones_medicas']
+            $data['observaciones_medicas'],
+            $data['creado_por_usuario_id'] ?? null
         ]);
     }
 }

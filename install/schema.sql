@@ -122,8 +122,16 @@ CREATE TABLE `beneficiarios` (
   `tipo_documento` varchar(50) DEFAULT 'RUT',
   `nacionalidad` varchar(100) DEFAULT 'Chilena',
   `apoderado_id` int(11) DEFAULT NULL,
+  `apoderado_suplente_1_id` int(11) DEFAULT NULL,
+  `apoderado_suplente_2_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `rut` (`rut`)
+  UNIQUE KEY `rut` (`rut`),
+  KEY `apoderado_id` (`apoderado_id`),
+  KEY `apoderado_suplente_1_id` (`apoderado_suplente_1_id`),
+  KEY `apoderado_suplente_2_id` (`apoderado_suplente_2_id`),
+  CONSTRAINT `beneficiarios_ibfk_1` FOREIGN KEY (`apoderado_id`) REFERENCES `apoderados` (`id`) ON DELETE SET NULL,
+  CONSTRAINT `beneficiarios_ibfk_2` FOREIGN KEY (`apoderado_suplente_1_id`) REFERENCES `apoderados` (`id`) ON DELETE SET NULL,
+  CONSTRAINT `beneficiarios_ibfk_3` FOREIGN KEY (`apoderado_suplente_2_id`) REFERENCES `apoderados` (`id`) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -339,9 +347,11 @@ CREATE TABLE `fichas_medicas` (
   `restricciones_alimenticias` text DEFAULT NULL,
   `vacunas_al_dia` int(11) DEFAULT 1,
   `observaciones_medicas` text DEFAULT NULL,
+  `creado_por_usuario_id` int(11) DEFAULT NULL,
   `ultima_actualizacion` datetime DEFAULT current_timestamp(),
   PRIMARY KEY (`beneficiario_id`),
-  CONSTRAINT `fichas_medicas_ibfk_1` FOREIGN KEY (`beneficiario_id`) REFERENCES `beneficiarios` (`id`)
+  CONSTRAINT `fichas_medicas_ibfk_1` FOREIGN KEY (`beneficiario_id`) REFERENCES `beneficiarios` (`id`),
+  CONSTRAINT `fichas_medicas_ibfk_2` FOREIGN KEY (`creado_por_usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

@@ -38,10 +38,14 @@ class BeneficiariosController extends Controller {
             exit;
         }
 
+        $apoderadoModel = new \App\Models\Apoderado();
+        $todosApoderados = $apoderadoModel->findAll();
+
         $this->view('beneficiarios/index', [
             'title' => 'Beneficiarios - ' . $unidad['nombre'],
             'unidad' => $unidad,
             'beneficiarios' => $beneficiarios,
+            'apoderados' => $todosApoderados,
             'anio_actual' => $anioScout,
             'user' => $user
         ]);
@@ -98,13 +102,52 @@ class BeneficiariosController extends Controller {
                 'nacionalidad' => $_POST['nacionalidad'] ?? 'Chilena',
                 'subgrupo' => $_POST['subgrupo'] ?? '',
                 'anio' => $anio,
-                'apoderado_id' => $apoderado_id
+                'apoderado_id' => $apoderado_id,
+                'apoderado_suplente_1_id' => !empty($_POST['suplente_1_id']) ? $_POST['suplente_1_id'] : null,
+                'apoderado_suplente_2_id' => !empty($_POST['suplente_2_id']) ? $_POST['suplente_2_id'] : null
             ];
 
             $beneficiarioModel = new Beneficiario();
             $beneficiarioModel->create($data);
             
             $this->redirect('/unidades/' . $unidad_id . '/beneficiarios');
+        }
+    }
+
+    public function editar($id) {
+        Auth::requireRole(['Superusuario', 'Responsable de Unidad', 'Asistente de Unidad']);
+        $beneficiarioModel = new Beneficiario();
+        $beneficiario = $beneficiarioModel->getDetails($id);
+        
+        if (!$beneficiario) $this->redirect('/dashboard');
+
+        $apoderadoModel = new \App\Models\Apoderado();
+        $apoderados = $apoderadoModel->findAll();
+
+        $this->view('beneficiarios/editar', [
+            'title' => 'Editar Beneficiario',
+            'beneficiario' => $beneficiario,
+            'apoderados' => $apoderados,
+            'user' => Auth::user()
+        ]);
+    }
+
+    public function actualizar($id) {
+        Auth::requireRole(['Superusuario', 'Responsable de Unidad', 'Asistente de Unidad']);
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $beneficiarioModel = new Beneficiario();
+            $data = [
+                'nombre_completo' => $_POST['nombre_completo'],
+                'rut' => $_POST['rut'],
+                'fecha_nacimiento' => $_POST['fecha_nacimiento'],
+                'tipo_documento' => $_POST['tipo_documento'],
+                'nacionalidad' => $_POST['nacionalidad'],
+                'apoderado_id' => $_POST['apoderado_id'],
+                'apoderado_suplente_1_id' => !empty($_POST['suplente_1_id']) ? $_POST['suplente_1_id'] : null,
+                'apoderado_suplente_2_id' => !empty($_POST['suplente_2_id']) ? $_POST['suplente_2_id'] : null
+            ];
+            $beneficiarioModel->update($id, $data);
+            $this->redirect('/beneficiarios/ver/' . $id);
         }
     }
 

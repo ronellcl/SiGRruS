@@ -81,6 +81,15 @@ class FichasController extends Controller {
                 }
             }
 
+            // Validación para Dirigentes de Unidad
+            if (in_array($user['rol'], ['Responsable de Unidad', 'Asistente de Unidad'])) {
+                $benefModel = new Beneficiario();
+                $benef = $benefModel->getDetails($_POST['beneficiario_id']);
+                if (!$benef || $benef['unidad_id'] != $user['unidad_id']) {
+                    $this->show403("No tienes permisos para gestionar fichas médicas de beneficiarios fuera de tu unidad.");
+                }
+            }
+
             $fichaModel = new FichaMedica();
             $data = [
                 'beneficiario_id' => $_POST['beneficiario_id'],
@@ -91,7 +100,8 @@ class FichasController extends Controller {
                 'prevision_salud' => $_POST['prevision_salud'],
                 'restricciones_alimenticias' => $_POST['restricciones_alimenticias'],
                 'vacunas_al_dia' => isset($_POST['vacunas_al_dia']) ? 1 : 0,
-                'observaciones_medicas' => $_POST['observaciones_medicas']
+                'observaciones_medicas' => $_POST['observaciones_medicas'],
+                'creado_por_usuario_id' => ($user['rol'] !== 'Apoderado') ? $user['id'] : null
             ];
 
             $fichaModel->save($data);

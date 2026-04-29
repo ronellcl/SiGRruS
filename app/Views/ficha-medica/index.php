@@ -29,6 +29,7 @@
                         <th>Beneficiario</th>
                         <th>Estado Ficha</th>
                         <th>Última Actualización</th>
+                        <th>Ingresado Por</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -41,10 +42,13 @@
                         <td><strong><?= htmlspecialchars($b['nombre_completo']) ?></strong></td>
                         <td>
                             <span class="badge" style="background:<?= $has_data ? '#28a745' : '#dc3545' ?>; color:white;">
-                                <?= $has_data ? '✅ Completa' : '⚠️ Pendiente/Incompleta' ?>
+                                <?= $has_data ? '✅ Completa' : '⚠️ Pendiente' ?>
                             </span>
                         </td>
                         <td><?= $has_data ? date('d/m/Y H:i', strtotime($f['ultima_actualizacion'])) : '-' ?></td>
+                        <td style="font-size:0.85rem; opacity:0.8;">
+                            <?= !empty($f['autor_nombre']) ? htmlspecialchars($f['autor_nombre']) : ($has_data ? 'Apoderado' : '-') ?>
+                        </td>
                         <td>
                             <a href="/fichas/ver/<?= $b['id'] ?>" class="btn btn-primary btn-sm">Ver Ficha</a>
                             <?php if(!\App\Core\Auth::isReadOnly() && ($user['rol'] === 'Superusuario' || $user['rol'] === 'Responsable de Unidad')): ?>

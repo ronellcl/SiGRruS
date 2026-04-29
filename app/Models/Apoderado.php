@@ -5,6 +5,11 @@ use PDO;
 
 class Apoderado extends Model {
     protected $table = 'apoderados';
+    
+    public function findAll() {
+        $stmt = $this->db->query("SELECT id, nombre_completo, rut FROM {$this->table} ORDER BY nombre_completo ASC");
+        return $stmt->fetchAll();
+    }
 
     public function findByRut($rut) {
         $stmt = $this->db->prepare("SELECT * FROM {$this->table} WHERE rut = ?");

@@ -18,7 +18,12 @@
 
         <div class="dashboard-grid">
             <div class="glass-card">
-                <h3>Información General</h3>
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <h3 style="margin:0;">Información General</h3>
+                    <?php if (in_array($user['rol'], ['Superusuario', 'Responsable de Unidad', 'Asistente de Unidad'])): ?>
+                        <a href="/beneficiarios/editar/<?= $beneficiario['id'] ?>" class="btn btn-sm" style="background:var(--color-primary); color:white;">Editar Perfil</a>
+                    <?php endif; ?>
+                </div>
                 <hr style="border:0; border-top:1px solid var(--glass-border); margin:1rem 0;">
                 <p><strong><?= htmlspecialchars($beneficiario['tipo_documento'] ?? 'RUT') ?>:</strong> <?= htmlspecialchars($beneficiario['rut'] ?? '') ?></p>
                 <p><strong>Nacionalidad:</strong> <?= htmlspecialchars($beneficiario['nacionalidad'] ?? 'Chilena') ?></p>
@@ -28,12 +33,31 @@
             </div>
 
             <div class="glass-card">
-                <h3>Resumen de Salud</h3>
+                <h3>Contactos de Emergencia / Apoderados</h3>
                 <hr style="border:0; border-top:1px solid var(--glass-border); margin:1rem 0;">
-                <p>Para ver el detalle completo, presione el botón <strong>Ficha Médica</strong> en el menú superior.</p>
-                <div style="margin-top:1rem; padding:1rem; background:rgba(255,255,255,0.05); border-radius:8px;">
-                    <p style="font-size:0.9rem; opacity:0.8;">La información de salud es confidencial y solo accesible por los dirigentes a cargo de la unidad y personal médico del grupo.</p>
+                <div style="margin-bottom:1rem; padding:0.75rem; background:rgba(99, 102, 241, 0.1); border-radius:8px; border-left:4px solid var(--color-primary);">
+                    <p style="margin:0; font-size:0.8rem; text-transform:uppercase; font-weight:bold; color:var(--color-primary);">Titular</p>
+                    <p style="margin:0.2rem 0 0 0;"><strong><?= htmlspecialchars($beneficiario['apoderado_nombre']) ?></strong></p>
+                    <p style="margin:0; font-size:0.85rem; opacity:0.8;">RUT: <?= htmlspecialchars($beneficiario['apoderado_rut']) ?></p>
                 </div>
+
+                <?php if ($beneficiario['suplente1_nombre']): ?>
+                <div style="margin-bottom:1rem; padding:0.75rem; background:rgba(255,255,255,0.05); border-radius:8px; border-left:4px solid var(--color-secondary);">
+                    <p style="margin:0; font-size:0.8rem; text-transform:uppercase; font-weight:bold; opacity:0.7;">Suplente 1</p>
+                    <p style="margin:0.2rem 0 0 0;"><strong><?= htmlspecialchars($beneficiario['suplente1_nombre']) ?></strong></p>
+                </div>
+                <?php endif; ?>
+
+                <?php if ($beneficiario['suplente2_nombre']): ?>
+                <div style="margin-bottom:1rem; padding:0.75rem; background:rgba(255,255,255,0.05); border-radius:8px; border-left:4px solid var(--color-secondary);">
+                    <p style="margin:0; font-size:0.8rem; text-transform:uppercase; font-weight:bold; opacity:0.7;">Suplente 2</p>
+                    <p style="margin:0.2rem 0 0 0;"><strong><?= htmlspecialchars($beneficiario['suplente2_nombre']) ?></strong></p>
+                </div>
+                <?php endif; ?>
+
+                <?php if (!$beneficiario['suplente1_nombre'] && !$beneficiario['suplente2_nombre']): ?>
+                    <p style="font-size:0.85rem; opacity:0.6; font-style:italic;">No hay apoderados suplentes registrados.</p>
+                <?php endif; ?>
             </div>
         </div>
     </main>

@@ -17,8 +17,13 @@
             <p style="opacity:0.7;">
                 <?php if ($ficha && isset($ficha['ultima_actualizacion'])): ?>
                     Última actualización: <?= date('d/m/Y H:i', strtotime($ficha['ultima_actualizacion'])) ?>
+                    <?php if (!empty($ficha['autor_nombre'])): ?>
+                        <span class="badge" style="background:var(--color-secondary); color:white; margin-left:10px;">
+                            Ingresado por: <?= htmlspecialchars($ficha['autor_nombre']) ?>
+                        </span>
+                    <?php endif; ?>
                 <?php else: ?>
-                    <span style="color:#dc3545;">⚠️ Ficha aún no completada por el apoderado</span>
+                    <span style="color:#dc3545;">⚠️ Ficha aún no completada</span>
                 <?php endif; ?>
             </p>
         </header>

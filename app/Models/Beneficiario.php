@@ -33,14 +33,16 @@ class Beneficiario extends Model {
             }
             
             // 1. Insertar el perfil permanente del beneficiario con su apoderado
-            $stmt = $this->db->prepare("INSERT INTO {$this->table} (nombre_completo, fecha_nacimiento, rut, tipo_documento, nacionalidad, apoderado_id) VALUES (:nombre, :fecha, :rut, :tipo, :nac, :apoderado_id)");
+            $stmt = $this->db->prepare("INSERT INTO {$this->table} (nombre_completo, fecha_nacimiento, rut, tipo_documento, nacionalidad, apoderado_id, apoderado_suplente_1_id, apoderado_suplente_2_id) VALUES (:nombre, :fecha, :rut, :tipo, :nac, :apoderado_id, :suplente1, :suplente2)");
             $stmt->execute([
                 ':nombre' => $data['nombre_completo'],
                 ':fecha' => $data['fecha_nacimiento'],
                 ':rut' => $data['rut'],
                 ':tipo' => $data['tipo_documento'] ?? 'RUT',
                 ':nac' => $data['nacionalidad'] ?? 'Chilena',
-                ':apoderado_id' => $data['apoderado_id']
+                ':apoderado_id' => $data['apoderado_id'],
+                ':suplente1' => $data['apoderado_suplente_1_id'] ?? null,
+                ':suplente2' => $data['apoderado_suplente_2_id'] ?? null
             ]);
             $beneficiario_id = $this->db->lastInsertId();
 
@@ -101,11 +103,15 @@ class Beneficiario extends Model {
     }
     public function getDetails($id) {
         $stmt = $this->db->prepare("
-            SELECT b.*, bi.unidad_id, bi.subgrupo, u.nombre as unidad_nombre, a.nombre_completo as apoderado_nombre
+            SELECT b.*, bi.unidad_id, bi.subgrupo, u.nombre as unidad_nombre, 
+                   a.nombre_completo as apoderado_nombre, a.rut as apoderado_rut,
+                   s1.nombre_completo as suplente1_nombre, s2.nombre_completo as suplente2_nombre
             FROM {$this->table} b
             JOIN beneficiario_inscripcion bi ON b.id = bi.beneficiario_id
             LEFT JOIN unidades u ON bi.unidad_id = u.id
             LEFT JOIN apoderados a ON b.apoderado_id = a.id
+            LEFT JOIN apoderados s1 ON b.apoderado_suplente_1_id = s1.id
+            LEFT JOIN apoderados s2 ON b.apoderado_suplente_2_id = s2.id
             WHERE b.id = ?
             ORDER BY bi.id DESC LIMIT 1
         ");
@@ -128,13 +134,16 @@ class Beneficiario extends Model {
     }
 
     public function update($id, $data) {
-        $stmt = $this->db->prepare("UPDATE {$this->table} SET nombre_completo = :nombre, fecha_nacimiento = :fecha, rut = :rut, tipo_documento = :tipo, nacionalidad = :nac WHERE id = :id");
+        $stmt = $this->db->prepare("UPDATE {$this->table} SET nombre_completo = :nombre, fecha_nacimiento = :fecha, rut = :rut, tipo_documento = :tipo, nacionalidad = :nac, apoderado_id = :apoderado_id, apoderado_suplente_1_id = :s1, apoderado_suplente_2_id = :s2 WHERE id = :id");
         return $stmt->execute([
             ':nombre' => $data['nombre_completo'],
             ':fecha' => $data['fecha_nacimiento'],
             ':rut' => $data['rut'],
             ':tipo' => $data['tipo_documento'] ?? 'RUT',
             ':nac' => $data['nacionalidad'] ?? 'Chilena',
+            ':apoderado_id' => $data['apoderado_id'],
+            ':s1' => $data['apoderado_suplente_1_id'] ?? null,
+            ':s2' => $data['apoderado_suplente_2_id'] ?? null,
             ':id' => $id
         ]);
     }
