@@ -242,15 +242,23 @@ class Usuario extends Model {
             $this->db->beginTransaction();
             
             // 1. Actualizar datos básicos
-            $stmt = $this->db->prepare("UPDATE {$this->table} SET nombre = :nombre, rut = :rut, tipo_documento = :tipo, nacionalidad = :nac, email = :email WHERE id = :id");
-            $stmt->execute([
+            $passwordSql = "";
+            $params = [
                 ':nombre' => $data['nombre'],
                 ':rut' => $data['rut'],
                 ':tipo' => $data['tipo_documento'] ?? 'RUT',
                 ':nac' => $data['nacionalidad'] ?? 'Chilena',
                 ':email' => $data['email'],
                 ':id' => $id
-            ]);
+            ];
+
+            if (!empty($data['password'])) {
+                $passwordSql = ", password = :password, must_change_password = 0";
+                $params[':password'] = password_hash($data['password'], PASSWORD_DEFAULT);
+            }
+
+            $stmt = $this->db->prepare("UPDATE {$this->table} SET nombre = :nombre, rut = :rut, tipo_documento = :tipo, nacionalidad = :nac, email = :email {$passwordSql} WHERE id = :id");
+            $stmt->execute($params);
 
             // 2. Actualizar roles e inscripciones (del año actual)
             $anio = $data['anio'] ?? date('Y');

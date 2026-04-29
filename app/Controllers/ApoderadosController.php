@@ -211,17 +211,43 @@ class ApoderadosController extends Controller
             try {
                 $tipo_doc = ($_POST['tipo_documento'] ?? 'RUT') === 'Otro' ? ($_POST['tipo_documento_otro'] ?? 'Otro') : ($_POST['tipo_documento'] ?? 'RUT');
 
-                $stmt = $db->prepare("UPDATE apoderados SET nombre_completo = ?, rut = ?, tipo_documento = ?, nacionalidad = ?, email = ?, telefono = ?, direccion = ? WHERE id = ?");
-                $stmt->execute([
-                    $_POST['nombre_completo'],
-                    $_POST['rut'],
-                    $tipo_doc,
-                    $_POST['nacionalidad'] ?? 'Chilena',
-                    $_POST['email'],
-                    $_POST['telefono'],
-                    $_POST['direccion'],
-                    $id
-                ]);
+                $apoModel = new Apoderado();
+                $oldApo = $apoModel->findById($id);
+                
+                $apoData = [
+                    'nombre_completo' => $_POST['nombre_completo'],
+                    'rut' => $_POST['rut'],
+                    'tipo_documento' => $tipo_doc,
+                    'nacionalidad' => $_POST['nacionalidad'] ?? 'Chilena',
+                    'email' => $_POST['email'],
+                    'telefono' => $_POST['telefono'],
+                    'direccion' => $_POST['direccion']
+                ];
+
+                $apoModel->update($id, $apoData);
+
+                // Sincronizar con tabla USUARIOS
+                $userModel = new \App\Models\Usuario();
+                // Buscar por RUT actual o RUT anterior
+                $userAccount = $userModel->findByRut($oldApo['rut']);
+                if ($userAccount) {
+                    $userData = [
+                        'nombre' => $_POST['nombre_completo'],
+                        'rut' => $_POST['rut'],
+                        'tipo_documento' => $tipo_doc,
+                        'nacionalidad' => $_POST['nacionalidad'] ?? 'Chilena',
+                        'email' => $_POST['email'],
+                        'password' => $_POST['password'] ?? null,
+                        'anio' => $_SESSION['anio_scout'] ?? date('Y')
+                    ];
+                    // Mantener roles actuales
+                    $currentRoles = $userModel->getRoleHistory($userAccount['id']);
+                    $userData['inscripciones'] = array_map(function($r) {
+                        return ['rol' => $r['rol'], 'unidad_id' => $r['unidad_id']];
+                    }, $currentRoles);
+
+                    $userModel->update($userAccount['id'], $userData);
+                }
 
                 $referer = $_POST['referer'] ?? '/dashboard';
                 $this->redirect($referer);

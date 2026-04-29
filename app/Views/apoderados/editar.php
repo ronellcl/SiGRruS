@@ -62,6 +62,12 @@
                 <input type="text" name="direccion" value="<?= htmlspecialchars($apoderado['direccion'] ?? '') ?>" required style="width:100%; padding:0.75rem; border-radius:8px; border:1px solid var(--glass-border); background:rgba(255,255,255,0.1); color:var(--color-text);">
             </div>
 
+            <div style="margin-bottom:2rem; padding:1rem; background:rgba(255,255,255,0.05); border-radius:8px; border:1px dashed var(--glass-border);">
+                <h4 style="margin-bottom:0.5rem; color:var(--color-primary);">Seguridad de Cuenta</h4>
+                <label style="display:block; margin-bottom:0.5rem; font-size:0.85rem; opacity:0.8;">Nueva Contraseña (dejar en blanco para no cambiar)</label>
+                <input type="password" name="password" placeholder="Mínimo 6 caracteres" style="width:100%; padding:0.75rem; border-radius:8px; border:1px solid var(--glass-border); background:rgba(255,255,255,0.1); color:var(--color-text);">
+            </div>
+
             <div style="display:flex; gap:1rem;">
                 <button type="submit" class="btn btn-primary" style="flex:1;">Guardar Cambios</button>
                 <a href="<?= htmlspecialchars($_GET['referer'] ?? '/dashboard') ?>" class="btn btn-primary" style="background:var(--color-secondary); flex:0.3; text-align:center;">Cancelar</a>

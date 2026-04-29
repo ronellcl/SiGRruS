@@ -538,14 +538,45 @@ class GrupoController extends Controller {
                 }
             }
 
+            $oldUser = $userModel->findById($id);
+            $oldRut = $oldUser['rut'];
+
+            $tipo_doc = ($_POST['tipo_documento'] ?? 'RUT') === 'Otro' ? ($_POST['tipo_documento_otro'] ?? 'Otro') : ($_POST['tipo_documento'] ?? 'RUT');
+            
             $data = [
                 'nombre' => $_POST['nombre'],
                 'rut' => $_POST['rut'],
+                'tipo_documento' => $tipo_doc,
+                'nacionalidad' => $_POST['nacionalidad'] ?? 'Chilena',
                 'email' => $_POST['email'],
+                'password' => $_POST['password'] ?? null,
                 'inscripciones' => $inscripciones,
                 'anio' => $_SESSION['anio_scout'] ?? date('Y')
             ];
+            
             $userModel->update($id, $data);
+
+            // Sincronizar con tabla apoderados si es apoderado
+            $apoModel = new Apoderado();
+            // Buscar por RUT actual o RUT anterior
+            $esApo = $apoModel->findByRut($_POST['rut']) ?: $apoModel->findByRut($oldRut);
+            
+            if ($esApo || isset($_POST['es_apoderado'])) {
+                $apoData = [
+                    'nombre_completo' => $_POST['nombre'],
+                    'rut' => $_POST['rut'],
+                    'tipo_documento' => $tipo_doc,
+                    'nacionalidad' => $_POST['nacionalidad'] ?? 'Chilena',
+                    'email' => $_POST['email'],
+                    'telefono' => $esApo['telefono'] ?? 'No informado',
+                    'direccion' => $esApo['direccion'] ?? 'No informada'
+                ];
+                if ($esApo) {
+                    $apoModel->update($esApo['id'], $apoData);
+                } else {
+                    $apoModel->create($apoData);
+                }
+            }
             $this->redirect('/grupo/dirigentes');
         }
     }

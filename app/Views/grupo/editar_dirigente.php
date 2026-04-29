@@ -30,7 +30,28 @@
 
                     <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1rem;">
                         <div>
-                            <label style="display:block; margin-bottom:0.5rem;">RUT</label>
+                            <label style="display:block; margin-bottom:0.5rem;">Tipo de Documento</label>
+                            <select name="tipo_documento" onchange="toggleOtroDoc(this, 'edit_dir_otro_doc')" style="width:100%; padding:0.75rem; border-radius:8px; border:1px solid var(--glass-border); background:var(--color-bg); color:white;">
+                                <?php $tipos = ['RUT', 'Pasaporte', 'DNI', 'CI']; ?>
+                                <?php foreach($tipos as $t): ?>
+                                    <option value="<?= $t ?>" <?= ($dirigente['tipo_documento'] ?? 'RUT') === $t ? 'selected' : '' ?>><?= $t ?></option>
+                                <?php endforeach; ?>
+                                <option value="Otro" <?= !in_array($dirigente['tipo_documento'] ?? 'RUT', $tipos) ? 'selected' : '' ?>>Otro...</option>
+                            </select>
+                            <input type="text" id="edit_dir_otro_doc" name="tipo_documento_otro" 
+                                   value="<?= !in_array($dirigente['tipo_documento'] ?? 'RUT', $tipos) ? htmlspecialchars($dirigente['tipo_documento']) : '' ?>"
+                                   placeholder="Especifique..." 
+                                   style="<?= !in_array($dirigente['tipo_documento'] ?? 'RUT', $tipos) ? 'display:block;' : 'display:none;' ?> width:100%; margin-top:0.5rem; padding:0.75rem; border-radius:8px; border:1px solid var(--glass-border); background:rgba(255,255,255,0.1); color:white;">
+                        </div>
+                        <div>
+                            <label style="display:block; margin-bottom:0.5rem;">Nacionalidad</label>
+                            <input type="text" name="nacionalidad" value="<?= htmlspecialchars($dirigente['nacionalidad'] ?? 'Chilena') ?>" required style="width:100%; padding:0.75rem; border-radius:8px; border:1px solid var(--glass-border); background:rgba(255,255,255,0.1); color:white;">
+                        </div>
+                    </div>
+
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1rem;">
+                        <div>
+                            <label style="display:block; margin-bottom:0.5rem;">RUT / Documento</label>
                             <input type="text" name="rut" value="<?= htmlspecialchars($dirigente['rut'] ?? '') ?>" required style="width:100%; padding:0.75rem; border-radius:8px; border:1px solid var(--glass-border); background:rgba(255,255,255,0.1); color:white;">
                         </div>
                         <div>
@@ -85,6 +106,12 @@
                                 </div>
                             <?php endforeach; ?>
                         </div>
+                    </div>
+
+                    <div style="margin-bottom:1.5rem; padding:1rem; background:rgba(255,255,255,0.05); border-radius:8px; border:1px dashed var(--glass-border);">
+                        <h4 style="margin-bottom:0.5rem; color:var(--color-primary);">Seguridad de Cuenta</h4>
+                        <label style="display:block; margin-bottom:0.5rem; font-size:0.85rem; opacity:0.8;">Nueva Contraseña (dejar en blanco para no cambiar)</label>
+                        <input type="password" name="password" placeholder="Mínimo 6 caracteres" style="width:100%; padding:0.75rem; border-radius:8px; border:1px solid var(--glass-border); background:rgba(255,255,255,0.1); color:white;">
                     </div>
 
                     <button type="submit" class="btn btn-primary" style="width:100%;">Guardar Cambios</button>
@@ -148,5 +175,17 @@
             </div>
         </div>
     </main>
+    <script>
+        function toggleOtroDoc(select, inputId) {
+            const input = document.getElementById(inputId);
+            if (select.value === 'Otro') {
+                input.style.display = 'block';
+                input.required = true;
+            } else {
+                input.style.display = 'none';
+                input.required = false;
+            }
+        }
+    </script>
 </body>
 </html>
