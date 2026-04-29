@@ -9,6 +9,22 @@
     <style>
         .table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
         .table th, .table td { padding: 1rem; text-align: left; border-bottom: 1px solid var(--glass-border); }
+        
+        .consejo-layout {
+            display: grid;
+            grid-template-columns: 1.6fr 1fr;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        @media (max-width: 1024px) {
+            .consejo-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .glass-card { min-width: 0; } /* Evita que el contenido ancho rompa el grid */
+        .table-container { overflow-x: auto; width: 100%; }
     </style>
 </head>
 <body>
@@ -23,13 +39,14 @@
             <button onclick="document.getElementById('modal-acta').style.display='block'" class="btn btn-primary">Nueva Acta de Reunión</button>
         </header>
 
-        <div class="dashboard-grid">
+        <div class="consejo-layout">
             <!-- LISTADO DE ACTAS -->
             <div class="glass-card">
                 <h3>Actas de Reunión</h3>
                 <?php if (empty($reuniones)): ?>
                     <p style="text-align:center; padding:2rem; opacity:0.6;">No hay actas registradas.</p>
                 <?php else: ?>
+                <div class="table-container">
                     <table class="table">
                         <thead>
                             <tr>
@@ -51,6 +68,7 @@
                             <?php endforeach; ?>
                         </tbody>
                     </table>
+                </div>
                 <?php endif; ?>
             </div>
 
@@ -59,7 +77,8 @@
                 <h3>Integrantes del Consejo</h3>
                 <p style="font-size:0.85rem; opacity:0.8; margin-bottom:1rem;">Solo las personas en esta lista pueden ver y proponer modificaciones a las actas.</p>
                 
-                <table class="table">
+                <div class="table-container">
+                    <table class="table">
                     <thead>
                         <tr>
                             <th>Nombre</th>
@@ -82,13 +101,16 @@
                         </tr>
                         <?php endforeach; ?>
                     </tbody>
-                </table>
+                    </table>
+                </div>
 
                 <?php if($user['rol'] === 'Superusuario' || $user['rol'] === 'Responsable de Grupo'): ?>
-                <form action="/grupo/agregarMiembroConsejo" method="POST" style="margin-top:1.5rem; display:flex; gap:0.5rem;">
-                    <input type="text" name="rut" placeholder="RUT del miembro" required style="flex:2; padding:0.5rem; background:rgba(255,255,255,0.1); color:white; border:1px solid var(--glass-border);">
-                    <input type="text" name="rol_especifico" placeholder="Función (ej: Asistente)" required style="flex:2; padding:0.5rem; background:rgba(255,255,255,0.1); color:white; border:1px solid var(--glass-border);">
-                    <button type="submit" class="btn btn-primary" style="flex:1; padding:0.5rem;">Añadir</button>
+                <form action="/grupo/agregarMiembroConsejo" method="POST" style="margin-top:1.5rem; display:flex; flex-direction:column; gap:0.75rem; padding:1rem; background:rgba(255,255,255,0.03); border-radius:12px;">
+                    <div style="display:flex; gap:0.5rem;">
+                        <input type="text" name="rut" placeholder="RUT del miembro" required style="flex:1; padding:0.6rem; border-radius:6px;">
+                        <input type="text" name="rol_especifico" placeholder="Función (ej: Asistente)" required style="flex:1; padding:0.6rem; border-radius:6px;">
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width:100%; padding:0.6rem;">Añadir al Consejo</button>
                 </form>
                 <?php endif; ?>
             </div>
