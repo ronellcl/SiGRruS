@@ -413,7 +413,8 @@ class TecnicoController extends Controller {
     public function suplantar($usuario_id) {
         Auth::requireRole(['Superusuario']);
         $userModel = new Usuario();
-        $target = $userModel->findById($usuario_id);
+        $anio = $_SESSION['anio_scout'] ?? date('Y');
+        $target = $userModel->findById($usuario_id, $anio);
 
         if ($target) {
             // Guardar sesión original si no se está suplantando ya

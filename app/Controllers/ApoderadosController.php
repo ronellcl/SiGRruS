@@ -229,7 +229,8 @@ class ApoderadosController extends Controller
                 // Sincronizar con tabla USUARIOS
                 $userModel = new \App\Models\Usuario();
                 // Buscar por RUT actual o RUT anterior
-                $userAccount = $userModel->findByRut($oldApo['rut']);
+                $anio = $_SESSION['anio_scout'] ?? date('Y');
+                $userAccount = $userModel->findByRut($oldApo['rut'], $anio);
                 if ($userAccount) {
                     $userData = [
                         'nombre' => $_POST['nombre_completo'],

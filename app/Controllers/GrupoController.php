@@ -485,7 +485,8 @@ class GrupoController extends Controller {
     public function editarDirigente($id) {
         Auth::requireRole(['Superusuario', 'Responsable de Grupo']);
         $userModel = new Usuario();
-        $dirigente = $userModel->findById($id);
+        $anio = $_SESSION['anio_scout'] ?? date('Y');
+        $dirigente = $userModel->findById($id, $anio);
         
         $unidadModel = new \App\Models\Unidad();
         $unidades = $unidadModel->findAll();
@@ -538,7 +539,8 @@ class GrupoController extends Controller {
                 }
             }
 
-            $oldUser = $userModel->findById($id);
+            $anio = $_SESSION['anio_scout'] ?? date('Y');
+            $oldUser = $userModel->findById($id, $anio);
             $oldRut = $oldUser['rut'];
 
             $tipo_doc = ($_POST['tipo_documento'] ?? 'RUT') === 'Otro' ? ($_POST['tipo_documento_otro'] ?? 'Otro') : ($_POST['tipo_documento'] ?? 'RUT');
