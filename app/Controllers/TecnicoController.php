@@ -488,6 +488,13 @@ class TecnicoController extends Controller {
         $this->redirect('/tecnico');
     }
 
+    public function buscarActualizaciones() {
+        Auth::requireRole(['Superusuario']);
+        unset($_SESSION['last_update_check']);
+        unset($_SESSION['update_notified_version']);
+        $this->redirect('/tecnico');
+    }
+
     public function procesarActualizacion() {
         Auth::requireRole(['Superusuario']);
         

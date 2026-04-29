@@ -51,7 +51,12 @@
             <div style="display:flex; justify-content:space-between; align-items:center;">
                 <div>
                     <h3 style="margin:0;">🚀 Actualización del Sistema</h3>
-                    <p style="font-size:0.85rem; opacity:0.7; margin:0.2rem 0 0 0;">Versión Instalada: <strong>v<?= $current_version ?></strong></p>
+                    <p style="font-size:0.85rem; opacity:0.7; margin:0.2rem 0 0 0;">
+                        Versión Instalada: <strong>v<?= $current_version ?></strong>
+                        <a href="<?= APP_URL ?>/tecnico/buscarActualizaciones" style="margin-left:10px; color:#6366f1; text-decoration:none; font-size:0.75rem; border:1px solid #6366f1; padding:2px 8px; border-radius:4px;" title="Buscar ahora">
+                            🔄 Buscar Actualizaciones
+                        </a>
+                    </p>
                 </div>
                 <div style="text-align:right;">
                     <?php if ($updateInfo && $updateInfo['has_update']): ?>
