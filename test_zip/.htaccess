@@ -1,0 +1,10 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    
+    # No reescribir si ya está apuntando a public o install
+    RewriteRule ^public/ - [L]
+    RewriteRule ^install/ - [L]
+    
+    # Redirigir el resto del tráfico a la carpeta public
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
