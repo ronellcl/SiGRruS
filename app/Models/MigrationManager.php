@@ -23,6 +23,7 @@ class MigrationManager extends Model {
         
         $stmt = $this->db->query("SELECT patch_id FROM sys_patches");
         $applied = $stmt->fetchAll(PDO::FETCH_COLUMN);
+        $stmt->closeCursor();
         
         $pending = [];
         foreach ($allPatches as $id => $queries) {
@@ -64,6 +65,7 @@ class MigrationManager extends Model {
             if (!$hasError) {
                 $stmt = $this->db->prepare("INSERT INTO sys_patches (patch_id) VALUES (?)");
                 $stmt->execute([$id]);
+                $stmt->closeCursor();
                 $results['success']++;
             }
         }

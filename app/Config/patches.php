@@ -14,7 +14,7 @@ return [
         "ALTER TABLE fichas_medicas ADD CONSTRAINT fk_fichas_creador FOREIGN KEY (creado_por_usuario_id) REFERENCES usuarios(id) ON DELETE SET NULL"
     ],
     '2026_04_29_gestion_cuentas_y_sincronizacion' => [
-        "SELECT 1; -- Parche de código: Soporte para configuración de cuentas y sincronización de perfiles"
+        "SET @patch_2026_04_29 = 1; -- Parche de código: Soporte para configuración de cuentas y sincronización de perfiles"
     ],
     // Aquí iremos añadiendo más parches en el futuro...
 ];
