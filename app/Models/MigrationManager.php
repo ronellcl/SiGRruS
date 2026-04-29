@@ -41,28 +41,30 @@ class MigrationManager extends Model {
         ];
 
         foreach ($pending as $id => $queries) {
-            try {
-                $this->db->beginTransaction();
-                foreach ($queries as $sql) {
-                    try {
-                        $this->db->exec($sql);
-                    } catch (\Exception $e) {
-                        // Algunos errores como "FK ya existe" los podemos ignorar si el SQL es ad-hoc
-                        if (strpos($e->getMessage(), 'Duplicate key') === false && 
-                            strpos($e->getMessage(), 'already exists') === false) {
-                            throw $e;
-                        }
+            $hasError = false;
+            foreach ($queries as $sql) {
+                try {
+                    $this->db->exec($sql);
+                } catch (\Exception $e) {
+                    // Ignorar errores si la columna o la llave ya existen
+                    // 1060: Duplicate column name
+                    // 1061: Duplicate key name
+                    // 1022: Can't write; duplicate key in table
+                    if (strpos($e->getMessage(), '1060') === false && 
+                        strpos($e->getMessage(), '1061') === false &&
+                        strpos($e->getMessage(), '1022') === false &&
+                        strpos($e->getMessage(), 'already exists') === false) {
+                        $results['errors'][] = "Error en SQL de {$id}: " . $e->getMessage();
+                        $hasError = true;
+                        break; 
                     }
                 }
-                
+            }
+            
+            if (!$hasError) {
                 $stmt = $this->db->prepare("INSERT INTO sys_patches (patch_id) VALUES (?)");
                 $stmt->execute([$id]);
-                
-                $this->db->commit();
                 $results['success']++;
-            } catch (\Exception $e) {
-                if ($this->db->inTransaction()) $this->db->rollBack();
-                $results['errors'][] = "Error en parche {$id}: " . $e->getMessage();
             }
         }
 
