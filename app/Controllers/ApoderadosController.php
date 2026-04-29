@@ -5,6 +5,7 @@ use App\Core\Controller;
 use App\Core\Auth;
 use App\Models\Apoderado;
 use App\Models\Unidad;
+use App\Models\Beneficiario;
 
 class ApoderadosController extends Controller
 {
@@ -163,7 +164,7 @@ class ApoderadosController extends Controller
 
                 // 2. Crear Beneficiarios (Hijos)
                 if (!empty($_POST['hijos_nombre'])) {
-                    $benefModel = new \App\Models\Beneficiario();
+                    $benefModel = new Beneficiario();
                     foreach ($_POST['hijos_nombre'] as $key => $nombre) {
                         if (empty($nombre))
                             continue;
@@ -354,8 +355,8 @@ class ApoderadosController extends Controller
                 $this->show403("Acceso denegado.");
             }
 
-            $benefModel = new \App\Models\Beneficiario();
-            $apoModel = new \App\Models\Apoderado();
+            $benefModel = new Beneficiario();
+            $apoModel = new Apoderado();
 
             // Procesar Suplentes (Opcionales)
             $suplente1_id = null;
