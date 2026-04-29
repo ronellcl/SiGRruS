@@ -164,27 +164,48 @@
                 </div>
 
                 <hr style="border:0; border-top:1px solid var(--glass-border); margin:1.5rem 0;">
-                <h3 style="margin-bottom:1rem; color:var(--color-secondary); font-size:1.1rem;">Apoderados Suplentes (Opcional)</h3>
-                <p style="font-size:0.8rem; opacity:0.7; margin-bottom:1rem;">Personas autorizadas en caso de que el titular no esté ubicable.</p>
-
-                <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1.5rem;">
+                <h3 style="margin-bottom:1rem; color:var(--color-secondary); font-size:1.1rem;">Apoderado Suplente 1 (Opcional)</h3>
+                
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1rem;">
                     <div>
-                        <label style="display:block; margin-bottom:0.5rem; font-weight:600;">Suplente 1</label>
-                        <select name="suplente_1_id" style="width:100%; padding:0.75rem; border-radius:8px; border:1px solid var(--glass-border); background:var(--color-bg); color:var(--color-text);">
-                            <option value="">-- Seleccionar --</option>
-                            <?php foreach($apoderados as $apo): ?>
-                                <option value="<?= $apo['id'] ?>"><?= htmlspecialchars($apo['nombre_completo']) ?> (<?= $apo['rut'] ?>)</option>
-                            <?php endforeach; ?>
-                        </select>
+                        <label style="display:block; margin-bottom:0.5rem; font-weight:600;">Nombre Completo</label>
+                        <input type="text" name="s1_nombre" style="width:100%; padding:0.75rem; border-radius:8px; border:1px solid var(--glass-border); background:rgba(255,255,255,0.1); color:var(--color-text);">
                     </div>
                     <div>
-                        <label style="display:block; margin-bottom:0.5rem; font-weight:600;">Suplente 2</label>
-                        <select name="suplente_2_id" style="width:100%; padding:0.75rem; border-radius:8px; border:1px solid var(--glass-border); background:var(--color-bg); color:var(--color-text);">
-                            <option value="">-- Seleccionar --</option>
-                            <?php foreach($apoderados as $apo): ?>
-                                <option value="<?= $apo['id'] ?>"><?= htmlspecialchars($apo['nombre_completo']) ?> (<?= $apo['rut'] ?>)</option>
-                            <?php endforeach; ?>
-                        </select>
+                        <label style="display:block; margin-bottom:0.5rem; font-weight:600;">RUT / Documento</label>
+                        <input type="text" name="s1_rut" style="width:100%; padding:0.75rem; border-radius:8px; border:1px solid var(--glass-border); background:rgba(255,255,255,0.1); color:var(--color-text);">
+                    </div>
+                </div>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1rem;">
+                    <div>
+                        <label style="display:block; margin-bottom:0.5rem; font-weight:600;">Email</label>
+                        <input type="email" name="s1_email" style="width:100%; padding:0.75rem; border-radius:8px; border:1px solid var(--glass-border); background:rgba(255,255,255,0.1); color:var(--color-text);">
+                    </div>
+                    <div>
+                        <label style="display:block; margin-bottom:0.5rem; font-weight:600;">Teléfono</label>
+                        <input type="text" name="s1_telefono" style="width:100%; padding:0.75rem; border-radius:8px; border:1px solid var(--glass-border); background:rgba(255,255,255,0.1); color:var(--color-text);">
+                    </div>
+                </div>
+
+                <h3 style="margin-bottom:1rem; color:var(--color-secondary); font-size:1.1rem; margin-top:1.5rem;">Apoderado Suplente 2 (Opcional)</h3>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1.5rem;">
+                    <div>
+                        <label style="display:block; margin-bottom:0.5rem; font-weight:600;">Nombre Completo</label>
+                        <input type="text" name="s2_nombre" style="width:100%; padding:0.75rem; border-radius:8px; border:1px solid var(--glass-border); background:rgba(255,255,255,0.1); color:var(--color-text);">
+                    </div>
+                    <div>
+                        <label style="display:block; margin-bottom:0.5rem; font-weight:600;">RUT / Documento</label>
+                        <input type="text" name="s2_rut" style="width:100%; padding:0.75rem; border-radius:8px; border:1px solid var(--glass-border); background:rgba(255,255,255,0.1); color:var(--color-text);">
+                    </div>
+                </div>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1rem;">
+                    <div>
+                        <label style="display:block; margin-bottom:0.5rem; font-weight:600;">Email</label>
+                        <input type="email" name="s2_email" style="width:100%; padding:0.75rem; border-radius:8px; border:1px solid var(--glass-border); background:rgba(255,255,255,0.1); color:var(--color-text);">
+                    </div>
+                    <div>
+                        <label style="display:block; margin-bottom:0.5rem; font-weight:600;">Teléfono</label>
+                        <input type="text" name="s2_telefono" style="width:100%; padding:0.75rem; border-radius:8px; border:1px solid var(--glass-border); background:rgba(255,255,255,0.1); color:var(--color-text);">
                     </div>
                 </div>
 

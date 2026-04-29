@@ -90,6 +90,40 @@ class BeneficiariosController extends Controller {
                 $apoderadoModel->update($apoderado_id, $apoData);
             }
 
+            // 1.1 Gestionar Suplente 1 (Opcional)
+            $suplente1_id = null;
+            if (!empty($_POST['s1_rut']) && !empty($_POST['s1_nombre'])) {
+                $s1 = $apoderadoModel->findByRut($_POST['s1_rut']);
+                $s1Data = [
+                    'nombre_completo' => $_POST['s1_nombre'],
+                    'rut' => $_POST['s1_rut'],
+                    'tipo_documento' => $_POST['s1_tipo_doc'] ?? 'RUT',
+                    'nacionalidad' => $_POST['s1_nacionalidad'] ?? 'Chilena',
+                    'email' => $_POST['s1_email'] ?? '',
+                    'telefono' => $_POST['s1_telefono'] ?? '',
+                    'direccion' => $_POST['s1_direccion'] ?? $_POST['apoderado_direccion'] // Por defecto misma dirección
+                ];
+                $suplente1_id = $s1 ? $s1['id'] : $apoderadoModel->create($s1Data);
+                if ($s1) $apoderadoModel->update($suplente1_id, $s1Data);
+            }
+
+            // 1.2 Gestionar Suplente 2 (Opcional)
+            $suplente2_id = null;
+            if (!empty($_POST['s2_rut']) && !empty($_POST['s2_nombre'])) {
+                $s2 = $apoderadoModel->findByRut($_POST['s2_rut']);
+                $s2Data = [
+                    'nombre_completo' => $_POST['s2_nombre'],
+                    'rut' => $_POST['s2_rut'],
+                    'tipo_documento' => $_POST['s2_tipo_doc'] ?? 'RUT',
+                    'nacionalidad' => $_POST['s2_nacionalidad'] ?? 'Chilena',
+                    'email' => $_POST['s2_email'] ?? '',
+                    'telefono' => $_POST['s2_telefono'] ?? '',
+                    'direccion' => $_POST['s2_direccion'] ?? $_POST['apoderado_direccion']
+                ];
+                $suplente2_id = $s2 ? $s2['id'] : $apoderadoModel->create($s2Data);
+                if ($s2) $apoderadoModel->update($suplente2_id, $s2Data);
+            }
+
             // 2. Crear Beneficiario
             $tipo_doc_bene = ($_POST['tipo_documento'] ?? 'RUT') === 'Otro' ? ($_POST['tipo_documento_otro'] ?? 'Otro') : ($_POST['tipo_documento'] ?? 'RUT');
 
@@ -103,8 +137,8 @@ class BeneficiariosController extends Controller {
                 'subgrupo' => $_POST['subgrupo'] ?? '',
                 'anio' => $anio,
                 'apoderado_id' => $apoderado_id,
-                'apoderado_suplente_1_id' => !empty($_POST['suplente_1_id']) ? $_POST['suplente_1_id'] : null,
-                'apoderado_suplente_2_id' => !empty($_POST['suplente_2_id']) ? $_POST['suplente_2_id'] : null
+                'apoderado_suplente_1_id' => $suplente1_id,
+                'apoderado_suplente_2_id' => $suplente2_id
             ];
 
             $beneficiarioModel = new Beneficiario();
@@ -136,6 +170,42 @@ class BeneficiariosController extends Controller {
         Auth::requireRole(['Superusuario', 'Responsable de Unidad', 'Asistente de Unidad']);
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $beneficiarioModel = new Beneficiario();
+            $apoderadoModel = new \App\Models\Apoderado();
+
+            // Procesar Suplente 1
+            $suplente1_id = null;
+            if (!empty($_POST['s1_rut']) && !empty($_POST['s1_nombre'])) {
+                $s1 = $apoderadoModel->findByRut($_POST['s1_rut']);
+                $s1Data = [
+                    'nombre_completo' => $_POST['s1_nombre'],
+                    'rut' => $_POST['s1_rut'],
+                    'tipo_documento' => $_POST['s1_tipo_doc'] ?? 'RUT',
+                    'nacionalidad' => $_POST['s1_nacionalidad'] ?? 'Chilena',
+                    'email' => $_POST['s1_email'] ?? '',
+                    'telefono' => $_POST['s1_telefono'] ?? '',
+                    'direccion' => $_POST['s1_direccion'] ?? ''
+                ];
+                $suplente1_id = $s1 ? $s1['id'] : $apoderadoModel->create($s1Data);
+                if ($s1) $apoderadoModel->update($suplente1_id, $s1Data);
+            }
+
+            // Procesar Suplente 2
+            $suplente2_id = null;
+            if (!empty($_POST['s2_rut']) && !empty($_POST['s2_nombre'])) {
+                $s2 = $apoderadoModel->findByRut($_POST['s2_rut']);
+                $s2Data = [
+                    'nombre_completo' => $_POST['s2_nombre'],
+                    'rut' => $_POST['s2_rut'],
+                    'tipo_documento' => $_POST['s2_tipo_doc'] ?? 'RUT',
+                    'nacionalidad' => $_POST['s2_nacionalidad'] ?? 'Chilena',
+                    'email' => $_POST['s2_email'] ?? '',
+                    'telefono' => $_POST['s2_telefono'] ?? '',
+                    'direccion' => $_POST['s2_direccion'] ?? ''
+                ];
+                $suplente2_id = $s2 ? $s2['id'] : $apoderadoModel->create($s2Data);
+                if ($s2) $apoderadoModel->update($suplente2_id, $s2Data);
+            }
+
             $data = [
                 'nombre_completo' => $_POST['nombre_completo'],
                 'rut' => $_POST['rut'],
@@ -143,8 +213,8 @@ class BeneficiariosController extends Controller {
                 'tipo_documento' => $_POST['tipo_documento'],
                 'nacionalidad' => $_POST['nacionalidad'],
                 'apoderado_id' => $_POST['apoderado_id'],
-                'apoderado_suplente_1_id' => !empty($_POST['suplente_1_id']) ? $_POST['suplente_1_id'] : null,
-                'apoderado_suplente_2_id' => !empty($_POST['suplente_2_id']) ? $_POST['suplente_2_id'] : null
+                'apoderado_suplente_1_id' => $suplente1_id,
+                'apoderado_suplente_2_id' => $suplente2_id
             ];
             $beneficiarioModel->update($id, $data);
             $this->redirect('/beneficiarios/ver/' . $id);

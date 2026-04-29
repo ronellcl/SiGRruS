@@ -63,27 +63,47 @@
                         </div>
 
                         <div style="margin-bottom:1rem; padding-top:1rem; border-top:1px solid var(--glass-border);">
-                            <label style="display:block; margin-bottom:0.5rem; font-weight:600;">Apoderado Suplente 1</label>
-                            <select name="suplente_1_id" style="width:100%; padding:0.75rem; border-radius:8px; border:1px solid var(--glass-border); background:var(--color-bg); color:var(--color-text);">
-                                <option value="">-- Ninguno --</option>
-                                <?php foreach($apoderados as $apo): ?>
-                                    <option value="<?= $apo['id'] ?>" <?= $beneficiario['apoderado_suplente_1_id'] == $apo['id'] ? 'selected' : '' ?>>
-                                        <?= htmlspecialchars($apo['nombre_completo']) ?> (<?= $apo['rut'] ?>)
-                                    </option>
-                                <?php endforeach; ?>
-                            </select>
+                            <h4 style="color:var(--color-secondary); margin-bottom:1rem;">Apoderado Suplente 1 (Opcional)</h4>
+                            <div style="margin-bottom:0.8rem;">
+                                <label style="display:block; margin-bottom:0.3rem; font-size:0.9rem;">Nombre Completo</label>
+                                <input type="text" name="s1_nombre" value="<?= htmlspecialchars($beneficiario['suplente1_nombre'] ?? '') ?>" style="width:100%; padding:0.6rem; border-radius:8px; border:1px solid var(--glass-border); background:rgba(255,255,255,0.1); color:var(--color-text);">
+                            </div>
+                            <div style="margin-bottom:0.8rem;">
+                                <label style="display:block; margin-bottom:0.3rem; font-size:0.9rem;">RUT</label>
+                                <input type="text" name="s1_rut" value="<?= htmlspecialchars($beneficiario['suplente1_rut'] ?? '') ?>" style="width:100%; padding:0.6rem; border-radius:8px; border:1px solid var(--glass-border); background:rgba(255,255,255,0.1); color:var(--color-text);">
+                            </div>
+                            <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem;">
+                                <div>
+                                    <label style="display:block; margin-bottom:0.3rem; font-size:0.9rem;">Email</label>
+                                    <input type="email" name="s1_email" value="<?= htmlspecialchars($beneficiario['suplente1_email'] ?? '') ?>" style="width:100%; padding:0.6rem; border-radius:8px; border:1px solid var(--glass-border); background:rgba(255,255,255,0.1); color:var(--color-text);">
+                                </div>
+                                <div>
+                                    <label style="display:block; margin-bottom:0.3rem; font-size:0.9rem;">Teléfono</label>
+                                    <input type="text" name="s1_telefono" value="<?= htmlspecialchars($beneficiario['suplente1_telefono'] ?? '') ?>" style="width:100%; padding:0.6rem; border-radius:8px; border:1px solid var(--glass-border); background:rgba(255,255,255,0.1); color:var(--color-text);">
+                                </div>
+                            </div>
                         </div>
 
-                        <div style="margin-bottom:1rem;">
-                            <label style="display:block; margin-bottom:0.5rem; font-weight:600;">Apoderado Suplente 2</label>
-                            <select name="suplente_2_id" style="width:100%; padding:0.75rem; border-radius:8px; border:1px solid var(--glass-border); background:var(--color-bg); color:var(--color-text);">
-                                <option value="">-- Ninguno --</option>
-                                <?php foreach($apoderados as $apo): ?>
-                                    <option value="<?= $apo['id'] ?>" <?= $beneficiario['apoderado_suplente_2_id'] == $apo['id'] ? 'selected' : '' ?>>
-                                        <?= htmlspecialchars($apo['nombre_completo']) ?> (<?= $apo['rut'] ?>)
-                                    </option>
-                                <?php endforeach; ?>
-                            </select>
+                        <div style="margin-bottom:1rem; padding-top:1rem; border-top:1px solid var(--glass-border);">
+                            <h4 style="color:var(--color-secondary); margin-bottom:1rem;">Apoderado Suplente 2 (Opcional)</h4>
+                            <div style="margin-bottom:0.8rem;">
+                                <label style="display:block; margin-bottom:0.3rem; font-size:0.9rem;">Nombre Completo</label>
+                                <input type="text" name="s2_nombre" value="<?= htmlspecialchars($beneficiario['suplente2_nombre'] ?? '') ?>" style="width:100%; padding:0.6rem; border-radius:8px; border:1px solid var(--glass-border); background:rgba(255,255,255,0.1); color:var(--color-text);">
+                            </div>
+                            <div style="margin-bottom:0.8rem;">
+                                <label style="display:block; margin-bottom:0.3rem; font-size:0.9rem;">RUT</label>
+                                <input type="text" name="s2_rut" value="<?= htmlspecialchars($beneficiario['suplente2_rut'] ?? '') ?>" style="width:100%; padding:0.6rem; border-radius:8px; border:1px solid var(--glass-border); background:rgba(255,255,255,0.1); color:var(--color-text);">
+                            </div>
+                            <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem;">
+                                <div>
+                                    <label style="display:block; margin-bottom:0.3rem; font-size:0.9rem;">Email</label>
+                                    <input type="email" name="s2_email" value="<?= htmlspecialchars($beneficiario['suplente2_email'] ?? '') ?>" style="width:100%; padding:0.6rem; border-radius:8px; border:1px solid var(--glass-border); background:rgba(255,255,255,0.1); color:var(--color-text);">
+                                </div>
+                                <div>
+                                    <label style="display:block; margin-bottom:0.3rem; font-size:0.9rem;">Teléfono</label>
+                                    <input type="text" name="s2_telefono" value="<?= htmlspecialchars($beneficiario['suplente2_telefono'] ?? '') ?>" style="width:100%; padding:0.6rem; border-radius:8px; border:1px solid var(--glass-border); background:rgba(255,255,255,0.1); color:var(--color-text);">
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

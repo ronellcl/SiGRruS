@@ -105,7 +105,8 @@ class Beneficiario extends Model {
         $stmt = $this->db->prepare("
             SELECT b.*, bi.unidad_id, bi.subgrupo, u.nombre as unidad_nombre, 
                    a.nombre_completo as apoderado_nombre, a.rut as apoderado_rut,
-                   s1.nombre_completo as suplente1_nombre, s2.nombre_completo as suplente2_nombre
+                   s1.nombre_completo as suplente1_nombre, s1.rut as suplente1_rut, s1.email as suplente1_email, s1.telefono as suplente1_telefono,
+                   s2.nombre_completo as suplente2_nombre, s2.rut as suplente2_rut, s2.email as suplente2_email, s2.telefono as suplente2_telefono
             FROM {$this->table} b
             JOIN beneficiario_inscripcion bi ON b.id = bi.beneficiario_id
             LEFT JOIN unidades u ON bi.unidad_id = u.id

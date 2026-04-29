@@ -45,6 +45,10 @@
                 <div style="margin-bottom:1rem; padding:0.75rem; background:rgba(255,255,255,0.05); border-radius:8px; border-left:4px solid var(--color-secondary);">
                     <p style="margin:0; font-size:0.8rem; text-transform:uppercase; font-weight:bold; opacity:0.7;">Suplente 1</p>
                     <p style="margin:0.2rem 0 0 0;"><strong><?= htmlspecialchars($beneficiario['suplente1_nombre']) ?></strong></p>
+                    <p style="margin:0; font-size:0.85rem; opacity:0.8;">
+                        RUT: <?= htmlspecialchars($beneficiario['suplente1_rut']) ?> 
+                        <?= $beneficiario['suplente1_telefono'] ? ' | Tel: ' . htmlspecialchars($beneficiario['suplente1_telefono']) : '' ?>
+                    </p>
                 </div>
                 <?php endif; ?>
 
@@ -52,6 +56,10 @@
                 <div style="margin-bottom:1rem; padding:0.75rem; background:rgba(255,255,255,0.05); border-radius:8px; border-left:4px solid var(--color-secondary);">
                     <p style="margin:0; font-size:0.8rem; text-transform:uppercase; font-weight:bold; opacity:0.7;">Suplente 2</p>
                     <p style="margin:0.2rem 0 0 0;"><strong><?= htmlspecialchars($beneficiario['suplente2_nombre']) ?></strong></p>
+                    <p style="margin:0; font-size:0.85rem; opacity:0.8;">
+                        RUT: <?= htmlspecialchars($beneficiario['suplente2_rut']) ?> 
+                        <?= $beneficiario['suplente2_telefono'] ? ' | Tel: ' . htmlspecialchars($beneficiario['suplente2_telefono']) : '' ?>
+                    </p>
                 </div>
                 <?php endif; ?>
 
