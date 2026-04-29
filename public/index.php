@@ -72,15 +72,15 @@ $baseDir = str_replace('/public/index.php', '', $scriptName); // Ej: /scouts
 $cleanBase = ltrim($baseDir, '/');
 
 // Si el URL capturado por .htaccess empieza con el nombre de la subcarpeta, lo limpiamos
-if (!empty($cleanBase) && (strpos($url, $cleanBase) === 0)) {
+if (!empty($cleanBase) && (stripos($url, $cleanBase) === 0)) {
     $url = ltrim(substr($url, strlen($cleanBase)), '/');
 }
 
 if (empty($url) && isset($_SERVER['REQUEST_URI'])) {
     $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
     
-    // Si estamos en una subcarpeta, la quitamos de la URI
-    if ($baseDir !== '/' && strpos($uri, $baseDir) === 0) {
+    // Si estamos en una subcarpeta, la quitamos de la URI (buscamos coincidencia insensible a mayúsculas)
+    if ($baseDir !== '/' && stripos($uri, $baseDir) === 0) {
         $uri = substr($uri, strlen($baseDir));
     }
     
