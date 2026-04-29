@@ -80,6 +80,16 @@
                     <div style="opacity:0.8; white-space: pre-wrap;"><?= htmlspecialchars($updateInfo['body']) ?></div>
                 </div>
             <?php endif; ?>
+
+            <?php if ($pendingPatches > 0): ?>
+                <div style="margin-top:1.5rem; padding:1rem; background:rgba(99, 102, 241, 0.1); border:1px solid #6366f1; border-radius:8px; display:flex; justify-content:space-between; align-items:center;">
+                    <div>
+                        <h4 style="margin:0; color:#6366f1;">🛠️ Mejoras y Parches Pendientes</h4>
+                        <p style="margin:0.2rem 0 0 0; font-size:0.85rem; opacity:0.8;">Se han detectado <?= $pendingPatches ?> paquete(s) de mejoras de base de datos o sistema pendientes.</p>
+                    </div>
+                    <a href="/tecnico/aplicarParches" class="btn btn-primary" style="background:#6366f1;">Aplicar Mejoras</a>
+                </div>
+            <?php endif; ?>
         </div>
 
         <!-- GESTIÓN DE RESPALDOS PREVENTIVOS -->

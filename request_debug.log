@@ -509,3 +509,6 @@
 2026-04-29 05:43:53 - URI: /sigrrus/dashboard - URL_PARAM: dashboard
 2026-04-29 05:44:04 - URI: /sigrrus/unidades/2/inventario - URL_PARAM: unidades/2/inventario
 2026-04-29 05:44:06 - URI: /sigrrus/dashboard - URL_PARAM: dashboard
+2026-04-29 05:58:31 - URI: /sigrrus/tecnico - URL_PARAM: tecnico
+2026-04-29 05:58:35 - URI: /sigrrus/tecnico/buscarActualizaciones - URL_PARAM: tecnico/buscarActualizaciones
+2026-04-29 05:58:35 - URI: /sigrrus/tecnico - URL_PARAM: tecnico

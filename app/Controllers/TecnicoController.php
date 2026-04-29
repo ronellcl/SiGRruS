@@ -27,6 +27,9 @@ class TecnicoController extends Controller {
         $updateModel = new UpdateManager();
         $updateInfo = $updateModel->checkUpdates();
 
+        $migrationManager = new \App\Models\MigrationManager();
+        $pendingPatches = $migrationManager->getPendingPatches();
+
         // Obtener lista de backups
         $backupDir = dirname(__DIR__, 2) . '/public/backups';
         $backups = [];
@@ -52,8 +55,23 @@ class TecnicoController extends Controller {
             'anios' => $anios,
             'updateInfo' => $updateInfo,
             'backups' => $backups,
-            'current_version' => \SIGRRUS_VERSION
+            'current_version' => \SIGRRUS_VERSION,
+            'pendingPatches' => count($pendingPatches)
         ]);
+    }
+
+    public function aplicarParches() {
+        Auth::requireRole(['Superusuario']);
+        $migrationManager = new \App\Models\MigrationManager();
+        $results = $migrationManager->applyPatches();
+        
+        if (!empty($results['errors'])) {
+            $_SESSION['error'] = implode("<br>", $results['errors']);
+        } else {
+            $_SESSION['success'] = "Se han aplicado {$results['success']} paquetes de mejoras correctamente.";
+        }
+        
+        $this->redirect('/tecnico');
     }
 
     public function crearAnio() {
