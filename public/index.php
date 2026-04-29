@@ -67,10 +67,16 @@ $router = new \App\Core\Router();
 // Detección robusta de la URL (soporte para subcarpetas)
 $url = $_GET['url'] ?? '';
 
+$scriptName = $_SERVER['SCRIPT_NAME']; // Ej: /scouts/public/index.php
+$baseDir = str_replace('/public/index.php', '', $scriptName); // Ej: /scouts
+$cleanBase = ltrim($baseDir, '/');
+
+// Si el URL capturado por .htaccess empieza con el nombre de la subcarpeta, lo limpiamos
+if (!empty($cleanBase) && (strpos($url, $cleanBase) === 0)) {
+    $url = ltrim(substr($url, strlen($cleanBase)), '/');
+}
+
 if (empty($url) && isset($_SERVER['REQUEST_URI'])) {
-    $scriptName = $_SERVER['SCRIPT_NAME']; // Ej: /scouts/public/index.php
-    $baseDir = str_replace('/public/index.php', '', $scriptName); // Ej: /scouts
-    
     $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
     
     // Si estamos en una subcarpeta, la quitamos de la URI
