@@ -64,22 +64,27 @@ session_start();
 // Enrutador
 $router = new \App\Core\Router();
 
-// Detección robusta de la URL (soporte para subcarpetas)
+// Detección robusta de la URL (soporte para subcarpetas en localhost)
 $url = $_GET['url'] ?? '';
 
-$scriptName = $_SERVER['SCRIPT_NAME']; // Ej: /scouts/public/index.php
-$baseDir = str_replace('/public/index.php', '', $scriptName); // Ej: /scouts
+$scriptName = $_SERVER['SCRIPT_NAME']; // Ej: /sigrrus/public/index.php
+$baseDir = str_replace('/public/index.php', '', $scriptName); // Ej: /sigrrus
 $cleanBase = ltrim($baseDir, '/');
 
-// Si el URL capturado por .htaccess empieza con el nombre de la subcarpeta, lo limpiamos
-if (!empty($cleanBase) && (stripos($url, $cleanBase) === 0)) {
-    $url = ltrim(substr($url, strlen($cleanBase)), '/');
+if (!empty($cleanBase)) {
+    // Si la URL capturada por .htaccess empieza por el nombre de la subcarpeta, lo limpiamos
+    if (stripos($url, $cleanBase . '/') === 0) {
+        $url = substr($url, strlen($cleanBase) + 1);
+    } elseif (strcasecmp($url, $cleanBase) === 0) {
+        $url = '';
+    }
 }
 
+// Si después de limpiar sigue vacío, intentamos detectar por REQUEST_URI
 if (empty($url) && isset($_SERVER['REQUEST_URI'])) {
     $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
     
-    // Si estamos en una subcarpeta, la quitamos de la URI (buscamos coincidencia insensible a mayúsculas)
+    // Si estamos en una subcarpeta, la quitamos de la URI
     if ($baseDir !== '/' && stripos($uri, $baseDir) === 0) {
         $uri = substr($uri, strlen($baseDir));
     }
