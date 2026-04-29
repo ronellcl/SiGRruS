@@ -95,6 +95,30 @@
                         </select>
                     </div>
 
+                    <div style="padding-top:1rem; border-top:1px solid var(--glass-border); margin-bottom:1rem;">
+                        <h4 style="color:var(--color-secondary); margin-bottom:1rem;">Suplente 1 (Opcional)</h4>
+                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem; margin-bottom:0.5rem;">
+                            <input type="text" name="s1_nombre" placeholder="Nombre Completo" style="width:100%; padding:0.5rem; border-radius:4px; border:1px solid var(--glass-border); background:rgba(255,255,255,0.05); color:white;">
+                            <input type="text" name="s1_rut" placeholder="RUT / Doc" style="width:100%; padding:0.5rem; border-radius:4px; border:1px solid var(--glass-border); background:rgba(255,255,255,0.05); color:white;">
+                        </div>
+                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem;">
+                            <input type="email" name="s1_email" placeholder="Email" style="width:100%; padding:0.5rem; border-radius:4px; border:1px solid var(--glass-border); background:rgba(255,255,255,0.05); color:white;">
+                            <input type="text" name="s1_telefono" placeholder="Teléfono" style="width:100%; padding:0.5rem; border-radius:4px; border:1px solid var(--glass-border); background:rgba(255,255,255,0.05); color:white;">
+                        </div>
+                    </div>
+
+                    <div style="padding-top:1rem; border-top:1px solid var(--glass-border); margin-bottom:1.5rem;">
+                        <h4 style="color:var(--color-secondary); margin-bottom:1rem;">Suplente 2 (Opcional)</h4>
+                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem; margin-bottom:0.5rem;">
+                            <input type="text" name="s2_nombre" placeholder="Nombre Completo" style="width:100%; padding:0.5rem; border-radius:4px; border:1px solid var(--glass-border); background:rgba(255,255,255,0.05); color:white;">
+                            <input type="text" name="s2_rut" placeholder="RUT / Doc" style="width:100%; padding:0.5rem; border-radius:4px; border:1px solid var(--glass-border); background:rgba(255,255,255,0.05); color:white;">
+                        </div>
+                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem;">
+                            <input type="email" name="s2_email" placeholder="Email" style="width:100%; padding:0.5rem; border-radius:4px; border:1px solid var(--glass-border); background:rgba(255,255,255,0.05); color:white;">
+                            <input type="text" name="s2_telefono" placeholder="Teléfono" style="width:100%; padding:0.5rem; border-radius:4px; border:1px solid var(--glass-border); background:rgba(255,255,255,0.05); color:white;">
+                        </div>
+                    </div>
+
                     <button type="submit" class="btn btn-primary" style="width:100%; background:var(--color-secondary);">Crear e Inscribir</button>
                 </form>
             </section>

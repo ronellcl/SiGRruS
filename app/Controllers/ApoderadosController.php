@@ -105,6 +105,39 @@ class ApoderadosController extends Controller
                     $apoderado_id = $apoModel->create($apoData);
                 }
 
+                // 1.2 Procesar Suplentes (Opcionales)
+                $suplente1_id = null;
+                if (!empty($_POST['s1_rut']) && !empty($_POST['s1_nombre'])) {
+                    $s1 = $apoModel->findByRut($_POST['s1_rut']);
+                    $s1Data = [
+                        'nombre_completo' => $_POST['s1_nombre'],
+                        'rut' => $_POST['s1_rut'],
+                        'tipo_documento' => 'RUT',
+                        'nacionalidad' => 'Chilena',
+                        'email' => $_POST['s1_email'] ?? '',
+                        'telefono' => $_POST['s1_telefono'] ?? '',
+                        'direccion' => $_POST['direccion']
+                    ];
+                    $suplente1_id = $s1 ? $s1['id'] : $apoModel->create($s1Data);
+                    if ($s1) $apoModel->update($suplente1_id, $s1Data);
+                }
+
+                $suplente2_id = null;
+                if (!empty($_POST['s2_rut']) && !empty($_POST['s2_nombre'])) {
+                    $s2 = $apoModel->findByRut($_POST['s2_rut']);
+                    $s2Data = [
+                        'nombre_completo' => $_POST['s2_nombre'],
+                        'rut' => $_POST['s2_rut'],
+                        'tipo_documento' => 'RUT',
+                        'nacionalidad' => 'Chilena',
+                        'email' => $_POST['s2_email'] ?? '',
+                        'telefono' => $_POST['s2_telefono'] ?? '',
+                        'direccion' => $_POST['direccion']
+                    ];
+                    $suplente2_id = $s2 ? $s2['id'] : $apoModel->create($s2Data);
+                    if ($s2) $apoModel->update($suplente2_id, $s2Data);
+                }
+
                 // 1.5 Sincronizar con tabla USUARIOS para permitir LOGIN
                 $userModel = new \App\Models\Usuario();
                 $userAccount = $userModel->findByRut($apoData['rut']);
@@ -126,9 +159,6 @@ class ApoderadosController extends Controller
                     if ($userModel->create($userData)) {
                         \App\Core\Email::sendWelcome($userData, $plainPassword);
                     }
-                } elseif ($userAccount) {
-                    // Asegurar que tenga el rol de apoderado si ya existía el usuario
-                    // (Lógica para agregar rol a un usuario existente si es necesario)
                 }
 
                 // 2. Crear Beneficiarios (Hijos)
@@ -147,6 +177,8 @@ class ApoderadosController extends Controller
                             'nacionalidad' => $_POST['hijos_nacionalidad'][$key] ?? 'Chilena',
                             'fecha_nacimiento' => $_POST['hijos_fecha'][$key],
                             'apoderado_id' => $apoderado_id,
+                            'apoderado_suplente_1_id' => $suplente1_id,
+                            'apoderado_suplente_2_id' => $suplente2_id,
                             'unidad_id' => $_POST['hijos_unidad'][$key],
                             'anio' => $_SESSION['anio_scout'] ?? date('Y')
                         ]);
@@ -323,6 +355,40 @@ class ApoderadosController extends Controller
             }
 
             $benefModel = new \App\Models\Beneficiario();
+            $apoModel = new \App\Models\Apoderado();
+
+            // Procesar Suplentes (Opcionales)
+            $suplente1_id = null;
+            if (!empty($_POST['s1_rut']) && !empty($_POST['s1_nombre'])) {
+                $s1 = $apoModel->findByRut($_POST['s1_rut']);
+                $s1Data = [
+                    'nombre_completo' => $_POST['s1_nombre'],
+                    'rut' => $_POST['s1_rut'],
+                    'tipo_documento' => 'RUT',
+                    'nacionalidad' => 'Chilena',
+                    'email' => $_POST['s1_email'] ?? '',
+                    'telefono' => $_POST['s1_telefono'] ?? '',
+                    'direccion' => ''
+                ];
+                $suplente1_id = $s1 ? $s1['id'] : $apoModel->create($s1Data);
+                if ($s1) $apoModel->update($suplente1_id, $s1Data);
+            }
+
+            $suplente2_id = null;
+            if (!empty($_POST['s2_rut']) && !empty($_POST['s2_nombre'])) {
+                $s2 = $apoModel->findByRut($_POST['s2_rut']);
+                $s2Data = [
+                    'nombre_completo' => $_POST['s2_nombre'],
+                    'rut' => $_POST['s2_rut'],
+                    'tipo_documento' => 'RUT',
+                    'nacionalidad' => 'Chilena',
+                    'email' => $_POST['s2_email'] ?? '',
+                    'telefono' => $_POST['s2_telefono'] ?? '',
+                    'direccion' => ''
+                ];
+                $suplente2_id = $s2 ? $s2['id'] : $apoModel->create($s2Data);
+                if ($s2) $apoModel->update($suplente2_id, $s2Data);
+            }
 
             $tipo_doc = ($_POST['tipo_documento'] ?? 'RUT') === 'Otro' ? ($_POST['tipo_documento_otro'] ?? 'Otro') : ($_POST['tipo_documento'] ?? 'RUT');
 
@@ -333,6 +399,8 @@ class ApoderadosController extends Controller
                 'nacionalidad' => $_POST['nacionalidad'] ?? 'Chilena',
                 'fecha_nacimiento' => $_POST['fecha_nacimiento'],
                 'apoderado_id' => $apoderado_id,
+                'apoderado_suplente_1_id' => $suplente1_id,
+                'apoderado_suplente_2_id' => $suplente2_id,
                 'unidad_id' => $_POST['unidad_id'],
                 'subgrupo' => $_POST['subgrupo'] ?? '',
                 'anio' => $_SESSION['anio_scout'] ?? date('Y')

@@ -57,6 +57,52 @@
                             <label>Dirección Particular</label>
                             <input type="text" name="direccion" style="width:100%; padding:0.75rem; background:rgba(255,255,255,0.1); color:white; border:1px solid var(--glass-border); border-radius:8px;">
                         </div>
+
+                        <!-- SUPLENTE 1 -->
+                        <div style="grid-column: 1 / -1; margin-top:1rem; padding:1rem; background:rgba(255,255,255,0.05); border-radius:8px;">
+                            <h4 style="color:var(--color-secondary); margin-bottom:1rem;">Apoderado Suplente 1 (Opcional)</h4>
+                            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1rem;">
+                                <div>
+                                    <label>Nombre Completo</label>
+                                    <input type="text" name="s1_nombre" style="width:100%; padding:0.5rem; background:rgba(255,255,255,0.1); color:white; border:1px solid var(--glass-border); border-radius:4px;">
+                                </div>
+                                <div>
+                                    <label>RUT / Documento</label>
+                                    <input type="text" name="s1_rut" style="width:100%; padding:0.5rem; background:rgba(255,255,255,0.1); color:white; border:1px solid var(--glass-border); border-radius:4px;">
+                                </div>
+                                <div>
+                                    <label>Email</label>
+                                    <input type="email" name="s1_email" style="width:100%; padding:0.5rem; background:rgba(255,255,255,0.1); color:white; border:1px solid var(--glass-border); border-radius:4px;">
+                                </div>
+                                <div>
+                                    <label>Teléfono</label>
+                                    <input type="text" name="s1_telefono" style="width:100%; padding:0.5rem; background:rgba(255,255,255,0.1); color:white; border:1px solid var(--glass-border); border-radius:4px;">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- SUPLENTE 2 -->
+                        <div style="grid-column: 1 / -1; margin-top:0.5rem; padding:1rem; background:rgba(255,255,255,0.05); border-radius:8px;">
+                            <h4 style="color:var(--color-secondary); margin-bottom:1rem;">Apoderado Suplente 2 (Opcional)</h4>
+                            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1rem;">
+                                <div>
+                                    <label>Nombre Completo</label>
+                                    <input type="text" name="s2_nombre" style="width:100%; padding:0.5rem; background:rgba(255,255,255,0.1); color:white; border:1px solid var(--glass-border); border-radius:4px;">
+                                </div>
+                                <div>
+                                    <label>RUT / Documento</label>
+                                    <input type="text" name="s2_rut" style="width:100%; padding:0.5rem; background:rgba(255,255,255,0.1); color:white; border:1px solid var(--glass-border); border-radius:4px;">
+                                </div>
+                                <div>
+                                    <label>Email</label>
+                                    <input type="email" name="s2_email" style="width:100%; padding:0.5rem; background:rgba(255,255,255,0.1); color:white; border:1px solid var(--glass-border); border-radius:4px;">
+                                </div>
+                                <div>
+                                    <label>Teléfono</label>
+                                    <input type="text" name="s2_telefono" style="width:100%; padding:0.5rem; background:rgba(255,255,255,0.1); color:white; border:1px solid var(--glass-border); border-radius:4px;">
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
